@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="papawestray 官方网站 - 北大西洋上的明珠">
+    <meta name="keywords" content="papawestray, 帕帕韦斯特雷, 共和国">
+    <meta name="author" content="papawestray government">
+    <title>papawestray · 帕帕韦斯特雷共和国</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-primary: #1a3550;
+            --color-primary-light: #234b6e;
+            --color-primary-dark: #0f2235;
+            --color-gold: #b8944b;
+            --color-gold-light: #d4b76a;
+            --color-gold-pale: #f5eedc;
+            --color-white: #ffffff;
+            --color-bg: #f8f7f4;
+            --color-bg-alt: #eef0f2;
+            --color-text: #2c2c2c;
+            --color-text-light: #5a5a5a;
+            --color-text-muted: #888888;
+            --color-border: #e0ddd6;
+            --color-success: #3a7d5a;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 48px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+            --max-width: 1200px;
+            --nav-height: 70px;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; scroll-padding-top:var(--nav-height); font-size:16px; -webkit-font-smoothing:antialiased; }
+        body {
+            font-family: 'Noto Sans SC','Noto Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+            color:var(--color-text); background-color:var(--color-bg);
+            line-height:1.7; overflow-x:hidden; min-height:100vh;
+        }
+        h1,h2,h3,h4 { font-family:'Playfair Display','Noto Sans SC','Noto Serif SC',Georgia,'Times New Roman',serif; font-weight:600; letter-spacing:0.02em; }
+
+        .navbar {
+            position:fixed; top:0; left:0; width:100%; height:var(--nav-height);
+            background:rgba(26,53,80,0.97); backdrop-filter:blur(12px);
+            -webkit-backdrop-filter:blur(12px); z-index:1000;
+            border-bottom:1px solid rgba(255,255,255,0.08);
+            transition:all var(--transition-normal); display:flex; align-items:center;
+            box-shadow:0 2px 20px rgba(0,0,0,0.15);
+        }
+        .navbar.scrolled { height:58px; background:rgba(26,53,80,0.99); box-shadow:0 4px 24px rgba(0,0,0,0.2); }
+        .nav-container {
+            max-width:var(--max-width); width:100%; margin:0 auto;
+            padding:0 24px; display:flex; align-items:center; justify-content:space-between;
+        }
+        .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--color-white); flex-shrink:0; }
+        .nav-brand img { width:40px; height:40px; transition:transform var(--transition-normal); }
+        .nav-brand:hover img { transform:rotate(-8deg) scale(1.05); }
+        .brand-text { display:flex; flex-direction:column; line-height:1.2; }
+        .brand-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; letter-spacing:0.03em; white-space:nowrap; }
+        .brand-subtitle { font-size:0.65rem; font-weight:300; letter-spacing:0.06em; text-transform:uppercase; color:var(--color-gold-light); white-space:nowrap; }
+
+        .nav-links { display:flex; list-style:none; gap:4px; align-items:center; }
+        .nav-links a {
+            display:block; padding:8px 16px; text-decoration:none;
+            color:rgba(255,255,255,0.85); font-size:0.9rem; font-weight:400;
+            letter-spacing:0.03em; border-radius:var(--radius-sm);
+            transition:all var(--transition-fast); position:relative; white-space:nowrap;
+        }
+        .nav-links a:hover,.nav-links a.active { color:#fff; background:rgba(255,255,255,0.08); }
+        .nav-links a::after {
+            content:''; position:absolute; bottom:4px; left:50%;
+            transform:translateX(-50%) scaleX(0); width:60%; height:2px;
+            background:var(--color-gold); border-radius:1px;
+            transition:transform var(--transition-normal);
+        }
+        .nav-links a:hover::after,.nav-links a.active::after { transform:translateX(-50%) scaleX(1); }
+
+        .nav-toggle { display:none; background:none; border:none; cursor:pointer; padding:8px; flex-direction:column; gap:5px; z-index:1001; }
+        .nav-toggle span { display:block; width:26px; height:2.5px; background:var(--color-white); border-radius:2px; transition:all var(--transition-normal); }
+        .nav-toggle.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+        .nav-toggle.active span:nth-child(2) { opacity:0; }
+        .nav-toggle.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+
+        .hero {
+            position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
+            background:linear-gradient(170deg,#0d1b2a 0%,#152a42 30%,#1a3550 50%,#1e4060 70%,#1a3550 100%);
+            overflow:hidden; padding-top:var(--nav-height);
+        }
+        .hero-bg-pattern {
+            position:absolute; inset:0; pointer-events:none; opacity:0.06;
+            background-image:radial-gradient(ellipse at 20% 50%,#ffffff 0%,transparent 60%),
+                            radial-gradient(ellipse at 75% 30%,#c9a96e 0%,transparent 50%),
+                            radial-gradient(ellipse at 50% 80%,#ffffff 0%,transparent 40%);
+        }
+        .hero-bg-grid {
+            position:absolute; inset:0; pointer-events:none; opacity:0.03;
+            background-image:linear-gradient(rgba(255,255,255,0.3) 1px,transparent 1px),
+                            linear-gradient(90deg,rgba(255,255,255,0.3) 1px,transparent 1px);
+            background-size:60px 60px;
+        }
+        .hero-content { position:relative; z-index:2; text-align:center; padding:40px 24px; max-width:800px; }
+        .hero-logo { width:120px; height:120px; margin:0 auto 28px; filter:drop-shadow(0 8px 24px rgba(0,0,0,0.4)); animation:emblemFloat 6s ease-in-out infinite; }
+        @keyframes emblemFloat { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-10px); } }
+        .hero h1 { font-size:clamp(2.2rem,4.5vw,3.6rem); color:#ffffff; font-weight:700; letter-spacing:0.04em; margin-bottom:8px; }
+        .hero .hero-subtitle { font-size:clamp(0.95rem,1.8vw,1.2rem); color:var(--color-gold-light); font-weight:400; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:20px; }
+        .hero .hero-description { font-size:clamp(0.9rem,1.4vw,1.05rem); color:rgba(255,255,255,0.7); max-width:600px; margin:0 auto 36px; line-height:1.8; font-weight:300; }
+        .hero-buttons { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
+        .btn {
+            display:inline-flex; align-items:center; gap:8px; padding:13px 28px; font-size:0.95rem; font-weight:500;
+            letter-spacing:0.03em; border-radius:50px; text-decoration:none; cursor:pointer;
+            transition:all var(--transition-normal); border:2px solid transparent; font-family:inherit; white-space:nowrap;
+        }
+        .btn-primary { background:var(--color-gold); color:var(--color-primary-dark); border-color:var(--color-gold); font-weight:600; }
+        .btn-primary:hover { background:var(--color-gold-light); border-color:var(--color-gold-light); transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+        .btn-outline { background:transparent; color:#ffffff; border-color:rgba(255,255,255,0.4); }
+        .btn-outline:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.7); transform:translateY(-2px); }
+
+        .hero-scroll-indicator {
+            position:absolute; bottom:30px; left:50%; transform:translateX(-50%); z-index:2;
+            display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer;
+            animation:bounceDown 2s ease-in-out infinite;
+        }
+        @keyframes bounceDown { 0%,100%{ transform:translateX(-50%) translateY(0); } 50%{ transform:translateX(-50%) translateY(10px); } }
+        .hero-scroll-indicator span { font-size:0.7rem; color:rgba(255,255,255,0.5); letter-spacing:0.06em; text-transform:uppercase; }
+        .hero-scroll-indicator .scroll-arrow {
+            width:24px; height:24px; border-right:2px solid rgba(255,255,255,0.5);
+            border-bottom:2px solid rgba(255,255,255,0.5); transform:rotate(45deg);
+        }
+
+        .section { padding:80px 24px; max-width:var(--max-width); margin:0 auto; }
+        .section-alt { background:var(--color-bg-alt); border-radius:var(--radius-lg); margin:0 auto 40px; max-width:var(--max-width); padding:80px 24px; }
+        .section-header { text-align:center; margin-bottom:56px; }
+        .section-label {
+            display:inline-block; font-size:0.75rem; font-weight:600; letter-spacing:0.1em;
+            text-transform:uppercase; color:var(--color-gold); margin-bottom:8px;
+            padding:4px 14px; border:1px solid var(--color-gold); border-radius:50px;
+        }
+        .section-title { font-size:clamp(1.8rem,3.2vw,2.4rem); color:var(--color-primary); margin-bottom:12px; font-weight:700; }
+        .section-divider { width:60px; height:3px; background:var(--color-gold); margin:0 auto 16px; border-radius:2px; }
+        .section-description { color:var(--color-text-light); max-width:600px; margin:0 auto; font-size:0.95rem; line-height:1.8; }
+
+        .info-grid { display:grid; grid-template-columns:1fr; gap:24px; }
+        .info-card {
+            background:var(--color-white); border-radius:var(--radius-lg); padding:32px 28px;
+            box-shadow:var(--shadow-sm); border:1px solid var(--color-border);
+            transition:all var(--transition-normal); text-decoration:none; color:inherit; display:block;
+        }
+        .info-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-4px); border-color:var(--color-gold); }
+        .info-card h3 { font-size:1.3rem; color:var(--color-primary); margin-bottom:12px; font-weight:700; }
+        .info-card p { font-size:0.95rem; color:var(--color-text-light); line-height:1.7; margin-bottom:8px; }
+        .info-card .more {
+            display:inline-block; margin-top:8px; font-weight:600; color:var(--color-gold);
+            font-size:0.9rem; letter-spacing:0.03em;
+        }
+
+        .site-footer { background:var(--color-primary-dark); color:rgba(255,255,255,0.7); padding:48px 24px 24px; }
+        .footer-container { max-width:var(--max-width); margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:32px; }
+        .footer-col h4 { color:#fff; font-size:1rem; margin-bottom:14px; font-weight:700; letter-spacing:0.04em; }
+        .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+        .footer-col ul li a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:0.85rem; transition:color var(--transition-fast); }
+        .footer-col ul li a:hover { color:var(--color-gold-light); }
+        .footer-bottom { max-width:var(--max-width); margin:32px auto 0; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1); text-align:center; font-size:0.78rem; color:rgba(255,255,255,0.4); letter-spacing:0.04em; }
+
+        .back-to-top {
+            position:fixed; bottom:28px; right:28px; width:44px; height:44px; border-radius:50%;
+            background:var(--color-primary); color:#fff; border:none; cursor:pointer; z-index:999;
+            font-size:1.2rem; display:flex; align-items:center; justify-content:center;
+            box-shadow:var(--shadow-lg); transition:all var(--transition-normal);
+            opacity:0; transform:translateY(20px); pointer-events:none;
+        }
+        .back-to-top.visible { opacity:1; transform:translateY(0); pointer-events:auto; }
+        .back-to-top:hover { background:var(--color-gold); color:var(--color-primary-dark); transform:translateY(-4px); }
+
+        .fade-in-up { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+        .fade-in-up.visible { opacity:1; transform:translateY(0); }
+
+        .nav-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; }
+        .nav-overlay.active { display:block; }
+
+        @media (max-width:768px) {
+            .nav-toggle { display:flex; }
+            .nav-links {
+                position:fixed; top:0; right:-100%; width:75%; max-width:320px; height:100vh;
+                background:var(--color-primary); flex-direction:column; padding:90px 24px 40px;
+                gap:4px; transition:right var(--transition-slow);
+                box-shadow:-8px 0 30px rgba(0,0,0,0.3); z-index:1000;
+            }
+            .nav-links.open { right:0; }
+            .nav-links a { font-size:1rem; padding:14px 16px; width:100%; border-radius:var(--radius-md); }
+            .section { padding:60px 16px; }
+            .section-alt { padding:60px 16px; margin:0 16px 40px; }
+            .hero h1 { font-size:1.8rem; }
+            .hero-logo { width:90px; height:90px; }
+            .info-grid { grid-template-columns:1fr; }
+        }
+        @media (max-width:480px) {
+            .hero-buttons { flex-direction:column; align-items:center; }
+            .btn { width:100%; justify-content:center; }
+            .brand-title { font-size:0.9rem; }
+            .brand-subtitle { font-size:0.6rem; }
+        }
+        /* ==================== 联系表单区域补充样式 ==================== */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        .contact-info-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .contact-info-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            font-size: 0.92rem;
+            color: var(--color-text-light);
+            line-height: 1.6;
+        }
+        .contact-info-list .contact-icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--color-gold-pale);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--color-gold);
+        }
+        .contact-form {
+            background: var(--color-white);
+            padding: 32px 28px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--color-border);
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 6px;
+            letter-spacing: 0.03em;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: all var(--transition-fast);
+            background: var(--color-bg);
+            color: var(--color-text);
+            resize: vertical;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-gold);
+            box-shadow: 0 0 0 3px rgba(184, 148, 75, 0.1);
+            background: var(--color-white);
+        }
+        .form-group textarea {
+            min-height: 120px;
+        }
+        .form-submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            transition: all var(--transition-normal);
+            font-family: inherit;
+        }
+        .form-submit-btn:hover {
+            background: var(--color-primary-light);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        .form-success-msg {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: var(--color-success);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .form-success-msg.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-brand">
+                <img src="./logo.png" alt="logo" onerror="this.style.display='none'">
+                <span class="brand-text">
+                    <span class="brand-title">帕帕韦斯特雷共和国</span>
+                    <span class="brand-subtitle">Republic of Papa Westray</span>
+                </span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="active" data-nav="home">首页</a></li>
+                <li><a href="#members" data-nav="members">成员</a></li>
+                <li><a href="#history" data-nav="history">历史</a></li>
+                <li><a href="#products" data-nav="products">产品</a></li>
+                <li><a href="#about" data-nav="about">关于我们</a></li>
+                <li><a href="#join" data-nav="join">加入我们</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="菜单">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <section class="hero" id="home">
+        <div class="hero-bg-pattern"></div>
+        <div class="hero-bg-grid"></div>
+        <div class="hero-content">
+            <img src="./logo.png" alt="logo" class="hero-logo" onerror="this.style.display='none'">
+            <p class="hero-subtitle">一群神人建立的神人虚拟国家</p>
+            <h1>Republic of Papa Westray</h1>
+            <p class="hero-description">帕帕韦斯特雷共和国 · 一个坐落于虚拟世界中的美丽岛国，实际自管区域为蛟川书院2号教学楼。以民主、自由、性感为核心价值。我们热情欢迎世界各地的朋友来访，感受这片土地的独特魅力。</p>
+            <div class="hero-buttons">
+                <a href="#members" class="btn btn-primary">👥 了解成员</a>
+                <a href="#products" class="btn btn-outline">🛠️ 探索产品</a>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator" onclick="document.getElementById('members').scrollIntoView({behavior:'smooth'})">
+            <span>向下滚动</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- 成员 -->
+    <section class="section" id="members">
+        <div class="section-header fade-in-up">
+            <span class="section-label">核心团队</span>
+            <h2 class="section-title">成员</h2>
+            <div class="section-divider"></div>
+            <p class="section-description">我们的核心团队与组织架构</p>
+        </div>
+        <div class="info-grid">
+            <a href="https://papawestraygov.github.io/members" class="info-card fade-in-up">
+                <h3>成员介绍</h3>
+                <p>了解帕帕韦斯特雷共和国的杰(xing)出(gan)公民与领导者。</p>
+                <span class="more">了解更多 →</span>
+            </a>
+            <a href="https://papawestraygov.github.io/organization" class="info-card fade-in-up">
+                <h3>组织结构</h3>
+                <p>愚钝的政府架构与各部门职责。</p>
+                <span class="more">了解更多 →</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- 历史 -->
+    <section class="section-alt" id="history">
+        <div class="section-header fade-in-up">
+            <span class="section-label">《PPW赤史》！！！</span>
+            <h2 class="section-title">历史</h2>
+            <div class="section-divider"></div>
+            <p class="section-description">从过去到未来的足迹</p>
+        </div>
+        <div class="info-grid">
+            <a href="https://papawestraygov.github.io/history" class="info-card fade-in-up">
+                <h3>发展历程</h3>
+                <p>探索共和国成长与抽象的关键时刻。</p>
+                <span class="more">了解更多 →</span>
+            </a>
+            <a href="https://papawestraygov.github.io/events" class="info-card fade-in-up">
+                <h3>重要事件</h3>
+                <p>记录那些塑造国家面貌的历史性瞬间。</p>
+                <span class="more">了解更多 →</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- 产品 -->
+    <section class="section" id="products">
+        <div class="section-header fade-in-up">
+            <span class="section-label">创新成果</span>
+            <h2 class="section-title">产品</h2>
+            <div class="section-divider"></div>
+            <p class="section-description">创新成果与技术实力</p>
+        </div>
+        <div class="info-grid">
+            <a href="https://papawestraygov.github.io/projects" class="info-card fade-in-up">
+                <h3>项目展示</h3>
+                <p>我们在各大后沿领域的重点项目与最愚蠢的解决方案。</p>
+                <span class="more">了解更多 →</span>
+            </a>
+            <a href="https://papawestraygov.github.io/technologies" class="info-card fade-in-up">
+                <h3>技术成果</h3>
+                <p>后沿科技与自主研发的神人发明。</p>
+                <span class="more">了解更多 →</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="section-alt" id="about">
+        <div class="section-header fade-in-up">
+            <span class="section-label">认识我们</span>
+            <h2 class="section-title">关于我们</h2>
+            <div class="section-divider"></div>
+            <p class="section-description">认识帕帕韦斯特雷共和国</p>
+        </div>
+        <div class="info-grid">
+            <a href="https://papawestraygov.github.io/about" class="info-card fade-in-up">
+                <h3>组织简介</h3>
+                <p>了解我们的使命、愿景、核心价值观与性取向。</p>
+                <span class="more">了解更多 →</span>
+            </a>
+            <a href="https://papawestraygov.github.io/contact" class="info-card fade-in-up">
+                <h3>联系方式</h3>
+                <p>欢迎随时与我们取得联系。</p>
+                <span class="more">了解更多 →</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- 加入我们 -->
+    <section class="section section-alt" id="join">
+        <div class="section-container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">共筑未来</span>
+                <h2 class="section-title">加入我们</h2>
+                <div class="section-divider"></div>
+                <p class="section-description">
+                    如有任何咨询、建议或合作意向，请通过以下方式与我们联系，我们将尽慢回复。
+                </p>
+            </div>
+            <div class="contact-wrapper">
+                <!-- 联系信息 -->
+                <div class="fade-in-up">
+                    <ul class="contact-info-list">
+                        <li>
+                            <span class="contact-icon">📍</span>
+                            <span><strong>政府办公地址</strong><br>蛟川书院806, 808, 813班<br>帕帕韦斯特雷自管区</span>
+                        </li>
+                        <li>
+                            <span class="contact-icon">📧</span>
+                            <span><strong>电子邮箱</strong><br>Tao_Yanji@outlook.com<br>3605705033@qq.com</span>
+                        </li>
+                        <li>
+                            <span class="contact-icon">📞</span>
+                            <span><strong>联系电话</strong><br>+86 190 6566 2639<br>周78至周91 e^πi:NULL - tan 90°:114/0</span>
+                        </li>
+                        <li>
+                            <span class="contact-icon">🌐</span>
+                            <span><strong>社交媒体</strong><br>X · Facebook · Instagram · Bilibili<br>搜索 我也不知道搜索啥,</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 联系表单 -->
+                <div class="contact-form fade-in-up" id="contactFormWrapper">
+                    <form id="contactForm" novalidate>
+                        <div class="form-group">
+                            <label for="formName">您的姓名 *</label>
+                            <input type="text" id="formName" name="name" placeholder="请输入您的全名" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="formEmail">电子邮箱 *</label>
+                            <input type="email" id="formEmail" name="email" placeholder="请输入您的邮箱地址" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="formSubject">咨询主题</label>
+                            <select id="formSubject" name="subject">
+                                <option value="">请选择主题</option>
+                                <option value="consult">事务咨询</option>
+                                <option value="business">商务合作</option>
+                                <option value="learning">学术合作</option>
+                                <option value="media">媒体联络</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="formMessage">留言内容 *</label>
+                            <textarea id="formMessage" name="message" placeholder="请在此输入您的留言..." required></textarea>
+                        </div>
+                        <button type="submit" class="form-submit-btn">发送留言 (ノ・ω・)ノ</button>
+                    </form>
+                    <div class="form-success-msg" id="formSuccessMsg">
+                         <strong>感谢您的留言！😋</strong><br>我们已收到您的信息，将在3个工作年内回复。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>导航</h4>
+                <ul>
+                    <li><a href="#members">成员</a></li>
+                    <li><a href="#history">历史</a></li>
+                    <li><a href="#products">产品</a></li>
+                    <li><a href="#about">关于我们</a></li>
+                    <li><a href="#join">加入我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>法律</h4>
+                <ul>
+                    <li><a href="#">隐私政策</a></li>
+                    <li><a href="#">使用条款</a></li>
+                    <li><a href="#">销售政策</a></li>
+                    <li><a href="#">法律信息</a></li>
+                    <li><a href="#">网站地图</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>联系</h4>
+                <ul>
+                    <li>广告位招租</li>
+                    <li><a href="mailto:Tao_Yanji@outlook.com">Tao_Yanji@outlook.com</a></li>
+                    <li><a href="3605705033@qq.com">3605705033@qq.com</a></li>
+                    <!-- <li>关注塔菲喵~ 关注塔菲谢谢喵(oﾟvﾟ)ノ</li> -->
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Papa Westray Government. All rights not reserved.</p>
+            <p style="margin-top:4px;">本网站为虚拟国家展示项目 · 托管于 GitHub Pages</p>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <script>
+        (function() {
+            const navbar = document.getElementById('navbar');
+            const navLinks = document.getElementById('navLinks');
+            const navToggle = document.getElementById('navToggle');
+            const navOverlay = document.getElementById('navOverlay');
+            const backToTop = document.getElementById('backToTop');
+            const allNavAnchors = navLinks.querySelectorAll('a');
+            const fadeElements = document.querySelectorAll('.fade-in-up');
+
+            function updateNavbar() {
+                const scrollY = window.scrollY;
+                navbar.classList.toggle('scrolled', scrollY > 50);
+                backToTop.classList.toggle('visible', scrollY > 500);
+                updateActiveNavLink();
+            }
+
+            function updateActiveNavLink() {
+                const sections = document.querySelectorAll('section[id]');
+                let currentSection = 'home';
+                const scrollPos = window.scrollY + 120;
+                sections.forEach(section => {
+                    const top = section.offsetTop;
+                    const height = section.offsetHeight;
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                allNavAnchors.forEach(anchor => {
+                    anchor.classList.remove('active');
+                    if (anchor.getAttribute('data-nav') === currentSection) {
+                        anchor.classList.add('active');
+                    }
+                });
+            }
+
+            function openMobileNav() {
+                navLinks.classList.add('open');
+                navOverlay.classList.add('active');
+                navToggle.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeMobileNav() {
+                navLinks.classList.remove('open');
+                navOverlay.classList.remove('active');
+                navToggle.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.contains('open') ? closeMobileNav() : openMobileNav();
+            });
+            navOverlay.addEventListener('click', closeMobileNav);
+            allNavAnchors.forEach(a => a.addEventListener('click', () => {
+                if (navLinks.classList.contains('open')) closeMobileNav();
+            }));
+
+            backToTop.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin:'0px 0px -50px 0px', threshold:0.12 });
+
+            fadeElements.forEach(el => observer.observe(el));
+            fadeElements.forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('visible');
+            });
+
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && navLinks.classList.contains('open')) closeMobileNav();
+            });
+
+            window.addEventListener('scroll', updateNavbar, { passive:true });
+            updateNavbar();
+        })();
+    </script>
+</body>
+</html>
