@@ -66,7 +66,7 @@
             padding:0 24px; display:flex; align-items:center; justify-content:space-between;
         }
         .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--color-white); flex-shrink:0; }
-        .nav-brand img { width:114px; height:50px; transition:transform var(--transition-normal); }
+        .nav-brand img { width:57px; height:25px; transition:transform var(--transition-normal); }
         .nav-brand:hover img { transform:rotate(-8deg) scale(1.05); }
         .brand-text { display:flex; flex-direction:column; line-height:1.2; }
         .brand-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; letter-spacing:0.03em; white-space:nowrap; }
@@ -319,10 +319,117 @@
             display: block;
         }
 
+        /* 自定义下拉选择器 */
+        .custom-select {
+            position: relative;
+            user-select: none;
+        }
+        .custom-select-trigger {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-bg);
+            font-size: 0.9rem;
+            color: var(--color-text);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all var(--transition-fast);
+            font-family: inherit;
+            text-align: left;
+        }
+        .custom-select-trigger:hover {
+            border-color: var(--color-gold);
+            background: var(--color-white);
+        }
+        .custom-select-trigger .arrow {
+            transition: transform var(--transition-fast);
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+        .custom-select.open .custom-select-trigger {
+            border-color: var(--color-gold);
+            box-shadow: 0 0 0 3px rgba(184, 148, 75, 0.1);
+            background: var(--color-white);
+        }
+        .custom-select.open .arrow {
+            transform: rotate(180deg);
+        }
+        .custom-select-options {
+            list-style: none;
+            margin: 6px 0 0 0;
+            padding: 6px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            position: absolute;
+            width: 100%;
+            top: 100%;
+            left: 0;
+            z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+        }
+        .custom-select-options li {
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            color: var(--color-text);
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: background var(--transition-fast);
+            opacity: 0;
+            transform: translateY(8px);
+        }
+        .custom-select-options li:hover {
+            background: var(--color-gold-pale);
+            color: var(--color-primary);
+        }
+        .custom-select.open .custom-select-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .custom-select.open .custom-select-options li {
+            animation: optionFadeIn 0.3s ease forwards;
+        }
+        .custom-select.open .custom-select-options li:nth-child(1) { animation-delay: 0.05s; }
+        .custom-select.open .custom-select-options li:nth-child(2) { animation-delay: 0.1s; }
+        .custom-select.open .custom-select-options li:nth-child(3) { animation-delay: 0.15s; }
+        .custom-select.open .custom-select-options li:nth-child(4) { animation-delay: 0.2s; }
+        .custom-select.open .custom-select-options li:nth-child(5) { animation-delay: 0.25s; }
+
+        @keyframes optionFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @media (max-width: 768px) {
             .contact-wrapper {
                 grid-template-columns: 1fr;
             }
+        }
+        
+        /* 下拉选择器：选中项末尾显示勾“✓” */
+        .custom-select-options li .check {
+            float: right;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+            color: var(--color-gold);
+            font-weight: 700;
+        }
+        .custom-select-options li.selected .check {
+            opacity: 1;
+        }
+        .custom-select-options li.selected {
+            background: var(--color-gold-pale);
+            color: var(--color-primary);
         }
     </style>
 </head>
@@ -336,11 +443,13 @@
                     <span class="brand-subtitle">Republic of Papa Westray</span>
                 </span>
             </a>
+            <!-- 导航栏 -->
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home" class="active" data-nav="home">首页</a></li>
                 <li><a href="#members" data-nav="members">成员</a></li>
                 <li><a href="#history" data-nav="history">历史</a></li>
                 <li><a href="#products" data-nav="products">产品</a></li>
+                <li><a href="#article" data-nav="article">文章</a></li>
                 <li><a href="#about" data-nav="about">关于我们</a></li>
                 <li><a href="#join" data-nav="join">加入我们</a></li>
             </ul>
@@ -358,7 +467,7 @@
             <img src="./logo.png" alt="logo" class="hero-logo" onerror="this.style.display='none'">
             <p class="hero-subtitle">一群神人建立的神人虚拟国家</p>
             <h1>Republic of Papa Westray</h1>
-            <p class="hero-description">帕帕韦斯特雷共和国 · 一个坐落于虚拟世界中的美丽岛国，实际自管区域为蛟川书院2号教学楼。以民主、自由、性感为核心价值。我们热情欢迎世界各地的朋友来访，感受这片土地的独特魅力。</p>
+            <p class="hero-description">帕帕韦斯特雷共和国 · 一个坐落于虚拟世界中的美丽岛国，实际自管区域为蛟川书院2号教学楼。以民主、自由、性感为核心价值。我们热情欢迎世界各地各种性取向的朋友来访，感受这歌国家的极度抽象癫疯魅惑力。</p>
             <div class="hero-buttons">
                 <a href="#members" class="btn btn-primary">了解成员</a>
                 <a href="#products" class="btn btn-outline">探索成就</a>
@@ -395,10 +504,10 @@
     <!-- 历史 -->
     <section class="section-alt" id="history">
         <div class="section-header fade-in-up">
-            <span class="section-label">《PPW赤史》！！！</span>
+            <span class="section-label">光辉岁月</span>
             <h2 class="section-title">历史</h2>
             <div class="section-divider"></div>
-            <p class="section-description">从过去到未来的足迹</p>
+            <p class="section-description">PPW赤史。嗯对。</p>
         </div>
         <div class="info-grid">
             <a href="https://papawestraygov.github.io/history" class="info-card fade-in-up">
@@ -420,7 +529,7 @@
             <span class="section-label">创新成果</span>
             <h2 class="section-title">产品</h2>
             <div class="section-divider"></div>
-            <p class="section-description">创新成果与技术实力</p>
+            <p class="section-description">非人类技术成果与赤石实力</p>
         </div>
         <div class="info-grid">
             <a href="https://papawestraygov.github.io/projects" class="info-card fade-in-up">
@@ -436,8 +545,30 @@
         </div>
     </section>
 
+    <!-- 文章 -->
+    <section class="section-alt" id="article">
+        <div class="section-header fade-in-up">
+            <span class="section-label">思想库</span>
+            <h2 class="section-title">文章</h2>
+            <div class="section-divider"></div>
+            <p class="section-description">阅读PPW周报等精选文章，包含大量经典之作，保证每一篇都夯爆了！</p>
+        </div>
+        <div class="info-grid">
+            <a href="https://papawestraygov.github.io/article" class="info-card fade-in-up">
+                <h3>文章列表</h3>
+                <p>深度长文与专栏，涉及政治、文化、科技与日常思考。</p>
+                <span class="more">浏览全部文章 →</span>
+            </a>
+            <a href="https://papawestraygov.github.io/weekly" class="info-card fade-in-up">
+                <h3>PPW周报</h3>
+                <p>每周更新，记录共和国的最新动态、趣闻与重要通知。</p>
+                <span class="more">阅读周报 →</span>
+            </a>
+        </div>
+    </section>
+
     <!-- 关于我们 -->
-    <section class="section-alt" id="about">
+    <section class="section" id="about">
         <div class="section-header fade-in-up">
             <span class="section-label">认识我们</span>
             <h2 class="section-title">关于我们</h2>
@@ -459,7 +590,7 @@
     </section>
 
     <!-- 加入我们 -->
-    <section class="section section-alt" id="join">
+    <section class="section-alt" id="join">
         <div class="section-container">
             <div class="section-header fade-in-up">
                 <span class="section-label">共筑未来</span>
@@ -467,6 +598,9 @@
                 <div class="section-divider"></div>
                 <p class="section-description">
                     如有任何咨询、建议或合作意向，请通过以下方式与我们联系，我们将尽慢回复。
+                </p>
+                <p class="section-description">
+                    加入 Papa Westray 谢谢喵~ >ω<
                 </p>
             </div>
             <div class="contact-wrapper">
@@ -503,16 +637,22 @@
                             <input type="email" id="formEmail" name="email" placeholder="请输入您的邮箱地址" required>
                         </div>
                         <div class="form-group">
-                            <label for="formSubject">咨询主题</label>
-                            <select id="formSubject" name="subject">
-                                <option value="">请选择主题</option>
-                                <option value="consult">事务咨询</option>
-                                <option value="business">商务合作</option>
-                                <option value="learning">学术合作</option>
-                                <option value="media">媒体联络</option>
-                                <option value="other">其他</option>
-                            </select>
+                        <label>咨询主题</label>
+                        <div class="custom-select" id="customSelect">
+                            <button type="button" class="custom-select-trigger" id="customSelectTrigger">
+                                <span class="selected-text">请选择主题</span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <ul class="custom-select-options" id="customSelectOptions">
+                                <li data-value="consult" data-text="事务咨询">事务咨询 <span class="check">✓</span></li>
+                                <li data-value="business" data-text="商务合作">商务合作 <span class="check">✓</span></li>
+                                <li data-value="learning" data-text="学术合作">学术合作 <span class="check">✓</span></li>
+                                <li data-value="media" data-text="媒体联络">媒体联络 <span class="check">✓</span></li>
+                                <li data-value="other" data-text="其他">其他 <span class="check">✓</span></li>
+                            </ul>
+                            <input type="hidden" name="subject" id="formSubjectHidden" value="">
                         </div>
+                    </div>
                         <div class="form-group">
                             <label for="formMessage">留言内容 *</label>
                             <textarea id="formMessage" name="message" placeholder="请在此输入您的留言..." required></textarea>
@@ -535,6 +675,7 @@
                     <li><a href="#members">成员</a></li>
                     <li><a href="#history">历史</a></li>
                     <li><a href="#products">产品</a></li>
+                    <li><a href="#article">文章</a></li>
                     <li><a href="#about">关于我们</a></li>
                     <li><a href="#join">加入我们</a></li>
                 </ul>
@@ -646,6 +787,50 @@
 
             window.addEventListener('scroll', updateNavbar, { passive:true });
             updateNavbar();
+
+            // 自定义下拉选择器交互
+            const customSelect = document.getElementById('customSelect');
+            const trigger = document.getElementById('customSelectTrigger');
+            const options = document.querySelectorAll('.custom-select-options li');
+            const hiddenSubject = document.getElementById('formSubjectHidden');
+
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                customSelect.classList.toggle('open');
+            });
+
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    const value = option.getAttribute('data-value');
+                    const text = option.textContent;
+                    trigger.querySelector('.selected-text').textContent = text;
+                    hiddenSubject.value = value;
+                    customSelect.classList.remove('open');
+                });
+            });
+
+            // 点击外部关闭
+            document.addEventListener('click', (e) => {
+                if (!customSelect.contains(e.target)) {
+                    customSelect.classList.remove('open');
+                }
+            });
+
+            // 下拉选择器：选中项末尾显示勾“✓”
+            options.forEach(option => {
+            option.addEventListener('click', () => {
+                const value = option.getAttribute('data-value');
+                const text = option.getAttribute('data-text'); // 直接获取纯文本
+                trigger.querySelector('.selected-text').textContent = text; // 触发器只显示纯文本
+                hiddenSubject.value = value;
+
+                // 移除其他选项的选中状态
+                options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected'); // 当前选中项高亮并显示✓
+
+                customSelect.classList.remove('open');
+            });
+        });
         })();
     </script>
 </body>
